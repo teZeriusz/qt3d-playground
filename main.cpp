@@ -1,11 +1,11 @@
-#include <QApplication>
-#include <QMainWindow>
-#include <QMenuBar>
+#include <QGuiApplication>
+#include <QTimer>
 #include "TeaServiceView.h"
 
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    /*
+    QGuiApplication app(argc, argv);
     QMainWindow mainw;
     mainw.setMinimumSize(850, 480);
     mainw.setWindowTitle(QLatin1String("Tea Service"));
@@ -40,5 +40,49 @@ int main(int argc, char *argv[]) {
     view.updateGL();
     mainw.update();
     mainw.show();
+    return app.exec();
+*/
+
+    QGuiApplication app(argc, argv);
+
+    TeaServiceView view;
+    QStringList args = QGuiApplication::arguments();
+    int w_pos = args.indexOf("-width");
+    int h_pos = args.indexOf("-height");
+    if (w_pos >= 0 && h_pos >= 0)
+    {
+        bool ok = true;
+        int w = args.at(w_pos + 1).toInt(&ok);
+        if (!ok)
+        {
+            qWarning() << "Could not parse width argument:" << args;
+            return 1;
+        }
+        int h = args.at(h_pos + 1).toInt(&ok);
+        if (!ok)
+        {
+            qWarning() << "Could not parse height argument:" << args;
+            return 1;
+        }
+        view.resize(w, h);
+    }
+    else
+    {
+        view.resize(800, 600);
+    }
+    view.show();
+
+    // TODO: QWindow has no setFocus function
+    // view.setFocus();
+
+    view.camera()->setEye(QVector3D(0, 3, 10));
+
+    if (args.contains("-per-pixel-lighting"))
+    {
+        QTimer::singleShot(0, &view, SLOT(perPixelLighting()));
+    }
+
+    view.show();
+
     return app.exec();
 }

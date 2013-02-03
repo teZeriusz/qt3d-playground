@@ -11,7 +11,7 @@ class TeaServiceView : public QGLView {
     Q_OBJECT
 
 public:
-    TeaServiceView(QWidget *parent=0);
+    TeaServiceView(QWindow *parent=0);
 
 public slots:
     void standardLighting();

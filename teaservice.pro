@@ -1,9 +1,14 @@
 TEMPLATE = app
 TARGET = teaservice
-CONFIG += qt warn_on qt3d
+CONFIG += qt warn_on
+QT += 3d
 
-#CONFIG += qt3d_deploy_pkg
-#include(/home/t0/Downloads/qt3d-1.0-src/pkg.pri)
+CONFIG += qt3d_deploy_pkg
+#include(/home/t0/qtpro/ose/qt3d-build-Desktop_Qt_5_0_0_GCC_64bit_SDK-Release/mkspecs/modules/qt_lib_3d.pri)
+include(/home/t0/qtpro/ose/qt3d/pkg.pri)
+
+INSTALLS = ""
+DESTDIR = ""
 
 SOURCES = meshobject.cpp sceneobject.cpp perpixeleffect.cpp \
     TeaServiceView.cpp \
